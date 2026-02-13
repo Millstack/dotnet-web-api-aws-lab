@@ -7,13 +7,9 @@ Initially, I tested the API using an IAM User with the following configuration:
   - ❌ Failed to create logs in S3 via the .NET Web API, returning a `403 Forbidden` or `AccessDenied` error
   - ❌ Failed to list buckets via AWS CL
 
-<br>
-
 ### **Why did it fail?**   
 Even though the user had EC2 control, the Application running inside EC2 was trying to act on S3.  
 Without explicit S3 permissions attached to the identity making the call, the request was blocked by the AWS Security layer.
-
-<br>
 
 ### The Solution: Service-to-Service Authorization (IAM Role)
 
@@ -26,5 +22,3 @@ Instead of adding `S3` permissions to a human user or hardcoding keys into the a
 4. **The Result**: The .NET Web API automatically detected the role via the `EC2 Metadata Service`
    * ✅ API calls to `/logs` now successfully generate and upload `.txt` log files to S3 without any code changes or stored credentials
 
-
-```
